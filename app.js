@@ -286,7 +286,7 @@ async function generateQRCodes() {
 async function generateSingleQRCode(firstName, lastName) {
   const encodedFirst = encodeURIComponent(firstName);
   const encodedLast = encodeURIComponent(lastName);
-  const url = `welcome.html?first=${encodedFirst}&last=${encodedLast}`;
+  const url = `https://invite-wedding.netlify.app/welcome.html?first=${encodedFirst}&last=${encodedLast}`;
 
   // Create a canvas element to generate the QR code
   const canvas = document.createElement("canvas");
