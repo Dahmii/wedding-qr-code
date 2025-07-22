@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bulk Name QR Code Generator</title>
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+    <!-- QR encoder – using qrcode library (compatible with instructions) -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script> -->
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="py-16 container">
+      <h1>Bulk QR Code Generator for Names</h1>
+      <p>
+        Create personalised QR codes from your CSV / Excel file – entirely in
+        your browser.
+      </p>
+    </header>
+
+    <main class="container flex flex-col gap-16" style="max-width: 800px">
+      <!-- File Upload Card -->
+      <section class="card" id="uploadSection">
+        <div class="card__body flex flex-col gap-16">
+          <div class="form-group">
+            <label class="form-label" for="fileInput"
+              >Upload CSV or Excel file</label
+            >
+            <input
+              class="form-control"
+              type="file"
+              id="fileInput"
+              accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            />
+          </div>
+          <div id="parseInfo" class="hidden">
+            <p id="rowCount"></p>
+            <!-- Column Mapping -->
+            <div class="flex gap-16 flex-col" id="columnMapping">
+              <div class="form-group">
+                <label class="form-label" for="firstSelect"
+                  >First name column</label
+                >
+                <select id="firstSelect" class="form-control"></select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="lastSelect"
+                  >Last name column (optional if first contains full
+                  name)</label
+                >
+                <select id="lastSelect" class="form-control"></select>
+              </div>
+            </div>
+            <button id="generateBtn" class="btn btn--primary mt-8" disabled>
+              Generate QR Codes
+            </button>
+          </div>
+          <div id="errorMsg" class="status status--error hidden"></div>
+        </div>
+      </section>
+
+      <!-- Progress Section -->
+      <section id="progressSection" class="card hidden">
+        <div class="card__body">
+          <p>Generating QR codes… <span id="progressText"></span></p>
+          <div class="progress-bar-container">
+            <div id="progressBar" class="progress-bar"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Preview & Download -->
+      <section id="resultSection" class="card hidden">
+        <div class="card__body flex flex-col gap-16">
+          <h2 class="mb-8">Preview (first 5 codes)</h2>
+          <div id="previewGrid" class="preview-grid"></div>
+          <button id="downloadBtn" class="btn btn--primary btn--lg">
+            Download ZIP
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
